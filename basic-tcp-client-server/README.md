@@ -2,43 +2,22 @@
 
 This is a skeleton client/server pair using sockets.
 
-### Setting up CMake
+### Initializing CMake
+
+
+To build this project, we need to create a build directory for CMake. We can
+do that with the following commands:
 
 ```bash
 cd basic-tcp-server
-```
-
-First things first we need to create the root-level `CMakeLists.txt` file:
-
-```bash
-vim CMakeLists.txt
-```
-```
-cmake_minimum_required(VERSION 3.16)
-
-project(basic-tcp-client-server)
-add_executable(basic-tcp-server server.cpp)
-add_executable(basic-tcp-client client.cpp)
-target_include_directories(basic-tcp-server PUBLIC ".")
-target_include_directories(basic-tcp-client PUBLIC ".")
-```
-
-Next we create a directory for building:
-
-```bash
 mkdir build
-```
-
-... which we setup for CMake with the following command:
-
-```
 cmake -S . -B build
 ```
 
 The path fed to the `-S` flag should be to the directory containing the
-root-level `CMakeLists.txt` file. The `-B` flag should be given a path to the
-build directory. Please note that we won't edit any of the files generated in
-the build directory by this command.
+root-level `CMakeLists.txt` file (provided in the repository). The `-B` flag
+should be given a path to the build directory. Please note that we won't edit
+any of the files generated in the build directory by this command.
 
 At this point, we are ready for compilation!
 
@@ -59,7 +38,7 @@ In one terminal, start the server:
 
 ```bash
 cd basic-tcp-server/
-build/basic-tcp-server
+build/basic-tcp-server <server-port>
 ```
 
 In another terminal, start the client:
