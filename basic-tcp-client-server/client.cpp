@@ -56,7 +56,17 @@ int main(int argc, char **argv) {
 	/* If we connected to the server successfully */
 	} else {
 
-		// TODO: get data from server and do something with it
+		printf("Connected to server!\n");
+		char buf[128];
+		/* Read message length */
+		if (recv(client_fd, &buf[0], sizeof(buf), 0) == -1) {
+			int err = errno;
+			fprintf(stderr, "ERROR: main(): Failed to receive data: %d ", err);
+			perror(NULL);
+		}
+		printf("%s", &buf[0]);
+		/* If the data was sent successfully or not, close the socket */
+		close(client_fd);
 
 	}
 
