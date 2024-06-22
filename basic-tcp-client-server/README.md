@@ -1,5 +1,21 @@
 # basic-tcp-server/
 
+
+## Table of Contents
+
+* [a. Instructions for Compiling and Running the Server](#a-instructions-for-compiling-and-running-the-server)
+    * [1. Initializing CMake](#1-initializing-cmake)
+    * [2. Compiling with CMake](#2-compiling-with-cmake)
+    * [3. Running the server](#3-running-the-server)
+* [b. How This Solution Works](#b-how-this-solution-works)
+    * [1. Initializing the Server](#1-initializing-the-server)
+    * [2. Responding to Connecting Clients](#2-responding-to-connecting-clients)
+        * [The SensorDataReader](#the-sensordatareader)
+        * [On getData()'s Return Values](#on-getdatas-return-values)
+        * [On the Sliding Window's Implementation](#on-the-sliding-windows-implementation)
+* [c. Assumptions](#c-assumptions)
+
+
 ## a. Instructions for Compiling and Running the Server
 
 ### 1. Initializing CMake
@@ -44,6 +60,8 @@ netcat 127.0.0.1 12345
 215.000000
 ```
 
+&nbsp;
+&nbsp;
 
 ## b. How This Solution Works
 
@@ -111,7 +129,7 @@ The `SensorDataReader` reads and processes the data in the following steps:
        passed references `numerator` and `denominator` such that `numerator /
        denominator` gives us the moving average.
 
-##### on getData()'s return values
+##### On getData()'s Return Values
 
 The reason a numerator-denominator pair are used as return values instead of a
 double is so that the returned data is more flexibile, since floats and doubles
@@ -137,9 +155,10 @@ and during and after the 10th read, the array will always contain the most recen
 sliding-window's-width values and dividing their sum by the sliding window's
 width.
 
+&nbsp;
+&nbsp;
 
-
-## c. Assumptions:
+## c. Assumptions
 
 * Assumption 1: The backlog will never exceed 10 connections.
     * We can change the backlog settings if needed, but as is, the server has
@@ -151,10 +170,12 @@ width.
       average. Since our sliding window covers 10 values, we know that we can
       sum all 10 signed `int16_t`s in an `int32_t` without overflowing it.
 ```math
+\displaylines{
 10(\text{the maximum positive value an int16\_t can hold}) \leq \text{the maximum positive value an int32\_t can hold} \\
 10(2^{(8\ *\ sizeof(int16\_t)-1)}-1) \leq 2^{(8 * sizeof(int32\_t)-1)}-1 \\
 10(2^{16-1}-1) \leq 2^{32-1}-1 \\
 327,670 \leq 2,147,483,647
+}
 ```
 * Assumption 3: Even though the given sensor data file has enough values for
   the first few clients to receive an average of 10 sensor readings, the server
