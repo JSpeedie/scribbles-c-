@@ -1,4 +1,4 @@
-# basic-tcp-server/
+# TCP Server Task
 
 ## Table of Contents
 
@@ -6,6 +6,7 @@
     * [1. Initializing CMake](#1-initializing-cmake)
     * [2. Compiling with CMake](#2-compiling-with-cmake)
     * [3. Running the server](#3-running-the-server)
+    * [4. Testing](#4-testing)
 * [b. How This Solution Works](#b-how-this-solution-works)
     * [1. Initializing the Server](#1-initializing-the-server)
     * [2. Responding to Connecting Clients](#2-responding-to-connecting-clients)
@@ -57,6 +58,28 @@ netcat 127.0.0.1 12345
 ```
 ```
 215.000000
+```
+
+### 4. Testing
+
+In this repo I've included a simple script `test.sh` which you can run
+(after starting the server) to have 110 consecutive clients contact the server,
+with the responses the clients receive output to `stdout`. An abbreviated
+example output would look like this:
+
+```bash
+sh test.sh
+```
+```
+1 215.000000
+2 506.000000
+3 482.666667
+...
+100 592.400000
+101 Data unavailable
+...
+110 Data unavailable
+
 ```
 
 &nbsp;
@@ -253,10 +276,3 @@ all the values in the vector and dividing it by the size of the vector.
       upon its acquisition could they do the vast majority of their work.
       Multiplexing also would not be helpful for this server since there
       is no back and forth between clients and the server.
-
-
-# TODO
-
-* a few test cases/walkthroughs
-* demonstrate some situations that would cause errors and how they would be handled
-* use valgrind to check for memory leaks
