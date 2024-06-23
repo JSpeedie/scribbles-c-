@@ -156,7 +156,14 @@ int main(int argc, char **argv) {
 	/* If we made it here, 'server_fd' is the file descriptor for our server */
 
 	/* Instantiate our SensorDataReader */
-	SensorDataReader sdr(sensor_data_fp.data());
+	SensorDataReader sdr(sensor_data_fp.data(), sensor_data_sliding_window_size);
+	/* Check if the SensorDataReader was initialized without problem */
+	if (!sdr.ready()) {
+		fprintf(stderr, "ERROR: main(): " \
+			"Could not instantiate SensorDataReader because sensor data " \
+			"file did not exist\n");
+		return -1;
+	}
 
 	/* Loop infinitely, waiting for new clients */
 	while (1) {
@@ -175,7 +182,7 @@ int main(int argc, char **argv) {
 			/* Each time a client connects, the server sends the next available
 			 * sensor value. */
 			int32_t sensor_data_num = 0;
-			char sensor_data_denom = 0;
+			int8_t sensor_data_denom = 0;
 			/* If the SensorDataReader was unable to get a value to send to the
 			 * client */
 			if (sdr.getData(sensor_data_num, sensor_data_denom) != 0) {
