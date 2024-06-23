@@ -215,7 +215,6 @@ int main(int argc, char **argv) {
 				/* If the data was sent successfully or not, close the socket */
 				close(new_socket);
 			}
-
 		}
 	}
 
