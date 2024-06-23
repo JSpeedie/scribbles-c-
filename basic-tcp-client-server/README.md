@@ -1,6 +1,5 @@
 # basic-tcp-server/
 
-
 ## Table of Contents
 
 * [a. Instructions for Compiling and Running the Server](#a-instructions-for-compiling-and-running-the-server)
@@ -76,14 +75,14 @@ Here are how these two stages are carried out:
 
 Initializing the server is achieved through the standard 4 step process:
 
-1.1. Get a list of internet addresses the server can use based on our
+**1.1.** Get a list of internet addresses the server can use based on our
 parameters. For this we use the `getaddrinfo()` function and specify that
-we want IPv4 or IPv6 addresses that we can make a listening TCP socket on.
-1.2. Make a socket with `socket()` using some of the information (such as the
+we want IPv4 or IPv6 addresses that we can make a listening TCP socket on.  
+**1.2.** Make a socket with `socket()` using some of the information (such as the
 address family, socket type, etc.) from the internet address we got in the
-previous step.
-1.3. Use `bind()` to bind that socket to an internet address we got in step 1.1.
-1.4. Set the socket to listen for connections using `listen()`, simultaneously
+previous step.  
+**1.3.** Use `bind()` to bind that socket to an internet address we got in step 1.1.  
+**1.4.** Set the socket to listen for connections using `listen()`, simultaneously
 setting the backlog for the server.
 
 These steps are all carried out by the `init_server()` function, and once that
@@ -95,18 +94,18 @@ connections!
 
 Handling clients is done through the following steps:
 
-2.1 We create a `SensorDataReader` object which we will use to get sensor
-data to send back to clients.
-2.2. We then loop infinitely on an `accept()` call, waiting to accept a new
-incoming connection.
-2.3. Once we have a new client, we then we call the `getData()` method of the
-`SensorDataReader` that we created to get the next sensor value.
-2.4 The `getData()` method of our `SensorDataReader` may fail, and in that
+**2.1.** We create a `SensorDataReader` object which we will use to get sensor
+data to send back to clients.  
+**2.2.** We then loop infinitely on an `accept()` call, waiting to accept a new
+incoming connection.  
+**2.3.** Once we have a new client, we then we call the `getData()` method of the
+`SensorDataReader` that we created to get the next sensor value.  
+**2.4.** The `getData()` method of our `SensorDataReader` may fail, and in that
 case the server responds to the client with the "Data unavailable" message. If
 data was available, the server converts the value to a string and responds to
-the client with that instead.
-2.5 After the server has sent either of those two messages, it closes the
-connection with the client and waits to `accept()` its next client.
+the client with that instead.  
+**2.5.** After the server has sent either of those two messages, it closes the
+connection with the client and waits to `accept()` its next client.  
 
 #### The SensorDataReader
 
@@ -211,8 +210,8 @@ width.
   with TCP servers.
     * For handling multiple clients this server only implements a backlog for
       incoming connections. While forking or starting a new thread are common
-      next actions for servers that have just received a new connection, I
-      chose not to opt for two reasons:
+      actions for servers after receiving a new connection, I chose to write
+      code that doesn't do any of them for two reasons:
 1. Forking or starting a new thread is not free, and the code for
    handling/responding to a new client for this server is so minimal that the
    relative cost for starting a new process or thread might result in more
@@ -220,11 +219,12 @@ width.
 2. Forking or starting a new thread would come with greater code complexity. In
    order to implement the desired functionality in a multiprocess or
    multithreaded way, we would need to use a lock on the `SensorDataReader` the
-   server initializes before accepting clients. This is not prohibitively
-   difficult to implement, but would open up the code to race conditions, and
-   increases the complexity of the code. This means the code would be harder to
-   maintain and (as mentioned previously) since client handling is so minimal,
-   it seems to me like this is not a desirable trade off.
+   server initializes before accepting clients. This is not difficult to
+   implement, but making the code multithreaded opens it up to the possibility
+   of race conditions, and increases the complexity of the code. This means the
+   code would be harder to maintain and (as mentioned previously) since client
+   handling is so minimal, it seems to me like this is not a desirable trade
+   off.
 
 
 # TODO
@@ -232,4 +232,3 @@ width.
 * a few test cases/walkthroughs
 * demonstrate some situations that would cause errors and how they would be handled
 * use valgrind to check for memory leaks
-* test until it reaches data unavailable, and then go for like 20 more clients
