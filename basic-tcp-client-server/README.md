@@ -243,8 +243,8 @@ all the values in the vector and dividing it by the size of the vector.
 ```
           ...
 
- 99th client: 614.200000    // avg(948, 355, 944, 229, 311, 755, 348, 787, 614, 851)
-100th client: 592.400000    // avg(355, 944, 229, 311, 755, 348, 787, 614, 851, 730)
+ 99th client: 614.200000          // avg(948, 355, 944, 229, 311, 755, 348, 787, 614, 851)
+100th client: 592.400000          // avg(355, 944, 229, 311, 755, 348, 787, 614, 851, 730)
 101st client: Data unavailable    // avg(944, 229, 311, 755, 348, 787, 614, 851, 730, NO VALUE)
 102nd client: Data unavailable    // avg(229, 311, 755, 348, 787, 614, 851, 730, NO VALUE, NO VALUE)
 
